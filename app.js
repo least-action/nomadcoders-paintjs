@@ -6,12 +6,16 @@
     const colors = document.getElementsByClassName("jsColor");
     const range = document.getElementById("jsRange");
     const mode = document.getElementById("jsMode");
+    const saveBtn = document.getElementById("jsSave");
 
     const INITIAL_COLOR = "#000000"
     const CANVAS_SIZE = 700;
 
     canvas.width = CANVAS_SIZE;
     canvas.height = CANVAS_SIZE;
+
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     ctx.strokeStyle = INITIAL_COLOR;
     ctx.fillStyle = INITIAL_COLOR;
@@ -71,6 +75,18 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
 
+    const handleCM = function(evnet) {
+        event.preventDefault();
+    };
+
+    const handleSaveClick = function() {
+        const image = canvas.toDataURL();
+        const link = document.createElement("a");
+        link.href = image;
+        link.download = "PaintJS";
+        link.click();
+    };
+
     //main
     (function() {
         if (canvas) {
@@ -79,6 +95,7 @@
             canvas.addEventListener("mouseup", stopPainting);
             canvas.addEventListener("mouseleave", stopPainting);
             canvas.addEventListener("click", handleCanvasClick);
+            canvas.addEventListener("contextmenu", handleCM);
         };
 
         if (colors) {
@@ -91,6 +108,10 @@
 
         if (mode) {
             mode.addEventListener("click", handleModeClick);
+        }
+
+        if (saveBtn) {
+            saveBtn.addEventListener("click", handleSaveClick);
         }
     })();
 })();
